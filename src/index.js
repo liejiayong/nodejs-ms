@@ -31,6 +31,8 @@ app.use(bodyParser({ formLimit: "1mb" }));
 app.use(
     koaBody({
         multipart: true,
+        //把bodyparser中的'form' 删掉
+        enableTypes: ["json", "text"], //'json', 'form', 'text'
         formidable: {
             maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
         },

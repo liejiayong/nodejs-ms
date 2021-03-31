@@ -11,12 +11,12 @@ exports.articles = `CREATE TABLE IF NOT EXISTS \`jy_blog_articles\`(
   \`like_count\` bigint(20) NOT NULL COMMENT '点赞数',
   \`collect_count\` bigint(20) NOT NULL COMMENT '收藏数',
   \`stat\` int(2) NOT NULL COMMENT '文章状态。0：删除；1：正常默认',
-  \`create_date\` datetime(0) NULL DEFAULT NULL COMMENT '发表时间',
-  \`update_date\` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  \`create_time\` int(11) NOT NULL DEFAULT 0 COMMENT '发表时间',
+  \` update_time\` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (\`id\`) USING BTREE,
   INDEX \`user_id\`(\`user_id\`) USING BTREE,
   CONSTRAINT \`fk_user_id\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE RESTRICT ON UPDATE RESTRICT
-  );`
+  );`;
 
 /**
  * 评论
@@ -37,4 +37,4 @@ exports.comment = `CREATE TABLE IF NOT EXISTS \`jy_blog_comments\`(
   INDEX \`article_id\`(\`article_id\`) USING BTREE,
   INDEX \`date\`(\`date\`) USING BTREE,
   INDEX \`parent_id\`(\`parent_id\`) USING BTREE
-);`
+);`;
