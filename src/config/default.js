@@ -14,9 +14,9 @@ const config = {
 
     // file path
     path: {
-        upload: "/upload/",
-        public: "/public/",
-        staticImg: "/staticImg/",
+        upload: "upload",
+        public: "public",
+        staticImg: "staticImg",
     },
 };
 

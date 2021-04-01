@@ -22,7 +22,7 @@ app.use(cors());
 
 // 配置静态资源加载
 // app.use(koaStatic(path.join(__dirname, staticPath)));
-app.use(koaStatic(path.join(__dirname, "../", configPath.upload)));
+app.use(koaStatic(`${configPath.public}`));
 // app.use(
 //     staticCache(
 //         path.join(__dirname, staticImg),
