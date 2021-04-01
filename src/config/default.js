@@ -5,12 +5,19 @@ const config = {
 
     // 数据库配置
     database: {
-        DATABASE: 'koa_blog',
-        USERNAME: 'root',
-        PASSWORD: 'root',
-        PORT: '3306',
-        HOST: 'localhost'
-    }
-}
+        DATABASE: "koa_blog",
+        USERNAME: "root",
+        PASSWORD: "root",
+        PORT: "3306",
+        HOST: "localhost",
+    },
 
-module.exports = config
+    // file path
+    path: {
+        upload: "/upload/",
+        public: "/public/",
+        staticImg: "/staticImg/",
+    },
+};
+
+module.exports = config;

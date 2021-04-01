@@ -1,8 +1,8 @@
 const router = require("koa-router")(); /*引入是实例化路由** 推荐*/
 const fs = require("fs");
 const path = require("path");
-
-const cachePath = path.join(__dirname, "../../static_cache");
+const config = require("../config/default");
+const cachePath = path.join(__dirname, "../", config.path.upload);
 const pathExist = fs.existsSync(cachePath);
 if (!pathExist) {
     fs.mkdir(cachePath, function (err) {
@@ -13,8 +13,8 @@ if (!pathExist) {
 }
 // 文件上传
 router.post("/upload", async (ctx) => {
-    const file = ctx.request.body.files.file; // 获取上传文件
-    console.log("file", file);
+    console.log(ctx.request.body);
+    const { file } = ctx.request.files; // 官方为了安全，在koa-body新版本中采用ctx.request.files获取上传的文件
     const reader = fs.createReadStream(file.path); // 创建可读流
     const ext = file.name.split(".").pop(); // 获取上传文件扩展名
     const upStream = fs.createWriteStream(

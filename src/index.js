@@ -3,27 +3,33 @@ const path = require("path");
 const Koa = require("koa");
 const koaBody = require("koa-body");
 const bodyParser = require("koa-bodyparser");
-// const koaStatic = require('koa-static')
 const cors = require("@koa/cors");
+const koaStatic = require("koa-static");
 const staticCache = require("koa-static-cache");
 const session = require("koa-session-minimal");
 const MysqlStore = require("koa-mysql-session");
 const router = require("./router");
-const { HTTP_SERVER_PORT, database } = require("./config/default");
+const {
+    HTTP_SERVER_PORT,
+    database,
+    path: configPath,
+} = require("./config/default");
 const { sidPrefix } = require("./models/session");
-const staticPath = "/cachefile";
 
 const app = new Koa();
 
+app.use(cors());
+
 // 配置静态资源加载
-// app.use(koaStatic(path.join(__dirname, staticPath)))
-app.use(
-    staticCache(
-        path.join(__dirname, staticPath),
-        { dynamic: true },
-        { maxAge: 365 * 24 * 60 * 60 }
-    )
-);
+// app.use(koaStatic(path.join(__dirname, staticPath)));
+app.use(koaStatic(path.join(__dirname, "../", configPath.upload)));
+// app.use(
+//     staticCache(
+//         path.join(__dirname, staticImg),
+//         { dynamic: true },
+//         { maxAge: 365 * 24 * 60 * 60 }
+//     )
+// );
 
 // 配置服务器路由请求
 app.use(bodyParser({ formLimit: "1mb" }));
@@ -32,7 +38,7 @@ app.use(
     koaBody({
         multipart: true,
         //把bodyparser中的'form' 删掉
-        enableTypes: ["json", "text"], //'json', 'form', 'text'
+        // enableTypes: ["json", "text"], //'json', 'form', 'text'
         formidable: {
             maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
         },
@@ -51,21 +57,21 @@ app.use(
         }),
     })
 );
-app.use(cors());
-app.use(async (ctx, next) => {
-    ctx.response.set(
-        "Access-Control-Allow-Origin",
-        "http://192.168.10.8:5505/"
-    );
-    ctx.response.set("Access-Control-Allow-Headers", "age"); //自定义的头部信息
-    ctx.response.set("Access-Control-Allow-Methods", "POST");
-    ctx.response.set("Access-Control-Allow-Credentials", true);
-    ctx.response.set("Access-Control-Allow-Max-Age", 6);
-    ctx.response.set("Access-Control-Expose-Headers", "name");
-    // 以上这些响应头都需设置
-    ctx.body = "I am a OPTION method request"; //为option请求报文设置响应
-    await next();
-});
+// app.use(cors());
+// app.use(async (ctx, next) => {
+//     ctx.response.set(
+//         "Access-Control-Allow-Origin",
+//         "http://192.168.10.8:5505/"
+//     );
+//     ctx.response.set("Access-Control-Allow-Headers", "age"); //自定义的头部信息
+//     ctx.response.set("Access-Control-Allow-Methods", "POST");
+//     ctx.response.set("Access-Control-Allow-Credentials", true);
+//     ctx.response.set("Access-Control-Allow-Max-Age", 6);
+//     ctx.response.set("Access-Control-Expose-Headers", "name");
+//     // 以上这些响应头都需设置
+//     // ctx.body = "I am a OPTION method request"; //为option请求报文设置响应
+//     await next();
+// });
 
 // 路由
 router(app);
