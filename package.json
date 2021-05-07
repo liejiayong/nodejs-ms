@@ -7,8 +7,7 @@
     "scripts": {
         "dev": "node src/index.js",
         "serve": "nodemon src/index.js",
-        "websocket": "nodemon src/websocket/websocket.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "websocket": "nodemon src/websocket/websocket.js"
     },
     "author": "liejiayong(809206619@qq.com)",
     "license": "ISC",
@@ -29,6 +28,7 @@
         "socket.io": "^2.2.0"
     },
     "devDependencies": {
+        "chalk": "^4.1.1",
         "nodemon": "^1.19.1"
     }
 }

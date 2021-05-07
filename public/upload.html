@@ -20,6 +20,7 @@
                 class="upload-demo"
                 drag
                 action="http://localhost:3888/upload/"
+                :on-success="handleAvatarSuccess"
                 multiple
             >
                 <i class="el-icon-upload"></i>
@@ -30,6 +31,7 @@
                     只能上传jpg/png文件，且不超过500kb
                 </div>
             </el-upload>
+            <img v-if="imageUrl" :src="imageUrl" width="300" />
         </div>
 
         <script type="module">
@@ -46,6 +48,16 @@
                 el: "#app",
                 // template: "<router-view/>",
                 // router,
+                data() {
+                    return {
+                        imageUrl: "",
+                    };
+                },
+                methods: {
+                    handleAvatarSuccess(res, file) {
+                        this.imageUrl = URL.createObjectURL(file.raw);
+                    },
+                },
             });
         </script>
     </body>

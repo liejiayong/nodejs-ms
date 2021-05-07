@@ -1,14 +1,15 @@
 const http = require("http");
 const path = require("path");
 const Koa = require("koa");
-const koaBody = require("koa-body");
 const bodyParser = require("koa-bodyparser");
 const cors = require("@koa/cors");
 const koaStatic = require("koa-static");
 const staticCache = require("koa-static-cache");
 const session = require("koa-session-minimal");
 const MysqlStore = require("koa-mysql-session");
+const chalk = require("chalk");
 const router = require("./router");
+const { getIPAdress } = require("./utils/url");
 const {
     HTTP_SERVER_PORT,
     database,
@@ -34,17 +35,6 @@ app.use(koaStatic(`${configPath.public}`));
 // 配置服务器路由请求
 app.use(bodyParser({ formLimit: "1mb" }));
 
-app.use(
-    koaBody({
-        multipart: true,
-        //把bodyparser中的'form' 删掉
-        // enableTypes: ["json", "text"], //'json', 'form', 'text'
-        formidable: {
-            maxFileSize: 200 * 1024 * 1024, // 设置上传文件大小最大限制，默认2M
-        },
-    })
-);
-
 // session
 app.use(
     session({
@@ -57,21 +47,6 @@ app.use(
         }),
     })
 );
-// app.use(cors());
-// app.use(async (ctx, next) => {
-//     ctx.response.set(
-//         "Access-Control-Allow-Origin",
-//         "http://192.168.10.8:5505/"
-//     );
-//     ctx.response.set("Access-Control-Allow-Headers", "age"); //自定义的头部信息
-//     ctx.response.set("Access-Control-Allow-Methods", "POST");
-//     ctx.response.set("Access-Control-Allow-Credentials", true);
-//     ctx.response.set("Access-Control-Allow-Max-Age", 6);
-//     ctx.response.set("Access-Control-Expose-Headers", "name");
-//     // 以上这些响应头都需设置
-//     // ctx.body = "I am a OPTION method request"; //为option请求报文设置响应
-//     await next();
-// });
 
 // 路由
 router(app);
@@ -80,8 +55,14 @@ router(app);
 const server = http.createServer(app.callback());
 
 // socket.io
-require("./lib/socketIO")(server);
+// require("./lib/socketIO")(server);
+// websocket
+require("./websocket/websocket");
 
 // 监听端口
 server.listen(HTTP_SERVER_PORT);
-console.log(`http server listening on port ${HTTP_SERVER_PORT}`);
+console.log(
+    `http server listening on port ${chalk.underline.green("%s:%s")}`,
+    getIPAdress(),
+    HTTP_SERVER_PORT
+);

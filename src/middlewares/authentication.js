@@ -1,6 +1,7 @@
 const { getSession, sidPrefix } = require("../models/session");
 
 exports.authentication = async function authentication(ctx) {
+    console.log("authentication", ctx);
     let url = ctx.request.url;
     // 登录 不用检查
     if (url == "/auth/login") {
