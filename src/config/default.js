@@ -7,7 +7,7 @@ const config = {
     database: {
         DATABASE: "koa_blog",
         USERNAME: "root",
-        PASSWORD: "root",
+        PASSWORD: "123456",
         PORT: "3306",
         HOST: "localhost",
     },
