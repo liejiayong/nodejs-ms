@@ -3,15 +3,12 @@ const moment = require("moment");
 const fs = require("fs");
 const path = require("path");
 const { findDataByName, registerUser } = require("../../models/user");
-// const { authentication } = require('../../middlewares/authentication')
 
 exports.postSignup = async (ctx) => {
-    // await authentication(ctx)// 权鉴
-
     try {
-        let { name, password, repassword, avator } = ctx.request.body;
-        // console.log(name,password,repassword)
+        let { name, password, repassword, tel } = ctx.request.body;
         await findDataByName(name).then(async (res) => {
+            // console.log(name, password, repassword);
             // 用户存在
             if (res.length) {
                 ctx.body = {
@@ -19,20 +16,6 @@ exports.postSignup = async (ctx) => {
                     msg: "用户已存在",
                 };
             }
-            // 密码
-            else if (password !== repassword || password.trim() === "") {
-                ctx.body = {
-                    code: 0,
-                    msg: "两次输入的密码不一致",
-                };
-            }
-            // // 头像
-            // else if (avator && avator.trim() === '') {
-            //     ctx.body = {
-            //         code: 0,
-            //         msg: '请上传头像'
-            //     }
-            // }
             // 密码
             else if (password !== repassword || password.trim() === "") {
                 ctx.body = {

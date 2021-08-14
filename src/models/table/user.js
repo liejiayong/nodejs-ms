@@ -6,7 +6,7 @@ exports.user = `create table if not exists users(
     avator VARCHAR(100) NOT NULL COMMENT '头像',
     moment VARCHAR(100) NOT NULL COMMENT '注册时间',
     PRIMARY KEY ( id )
-   );`
+   );`;
 
 // 实名认证
 exports.certification = `create table if not exists certification(
@@ -36,4 +36,4 @@ exports.certification = `create table if not exists certification(
       INDEX normal_uid(uid) USING BTREE COMMENT '用户标识二级索引',
       INDEX normal_username(username) USING BTREE COMMENT '用户名二级索引',
       INDEX normal_status(status) USING BTREE COMMENT '审核状态二级索引'
-    );`
+    );`;
